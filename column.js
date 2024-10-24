@@ -7,7 +7,7 @@ class Column {
         this.queue=[];
     }
 
-    moveTo(loc,frameCount=100) {
+    moveTo(loc,frameCount=10) {
         for(let i=0;i<frameCount;i++){
             const t=i/frameCount;
             this.queue.push({
@@ -18,17 +18,19 @@ class Column {
     }
 
     draw(ctx) {
+        let changed=false;
         if (this.queue.length > 0) {
             const {x,y}=this.queue.shift();
             this.x=x;
             this.y=y;
+            changed=true;
         }
         const left=this.x-this.width/2;
         const top=this.y-this.height;
         const right=this.x+this.width/2;
 
         ctx.beginPath();
-        ctx.fillStyle="rgb(150,150,150)";
+        ctx.fillStyle="rgb(300,90,180)";
         ctx.moveTo(left,top);
         ctx.lineTo(left,this.y);
         ctx.ellipse(this.x,this.y,
@@ -39,5 +41,6 @@ class Column {
             0,Math.PI*2,true);
         ctx.fill();
         ctx.stroke();
+        return changed;
     }
 }
